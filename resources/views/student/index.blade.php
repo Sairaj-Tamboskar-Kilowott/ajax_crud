@@ -2,7 +2,7 @@
 
 @section('content')
 
-<!--Add student modal Modal -->
+<!--AddStudentModal Modal -->
 <div class="modal fade" id="AddStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -92,7 +92,7 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -139,8 +139,8 @@
                                     <td>' + item.email + '</td>\
                                     <td>' + item.phone + '</td>\
                                     <td>' + item.course + '</td>\
-                                    <td><button type="button" value="' + item.id + '" class=" edit_student btn btn-primary btn-sm">  Edit</button></td>\
-                                    <td><button type="button" value="' + item.id + '" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
+                                    <td><button type="button" value="' + item.id + '" class=" edit_student btn btn-primary btn-sm">  Edit </button></td>\
+                                    <td><button type="button" value="' + item.id + '" class="delete_student btn btn-danger btn-sm"> Delete </button></td>\
                                     </tr>'
 
                         );
@@ -170,6 +170,7 @@
                         $('#edit_phone').val(response.student.phone);
                         $('#edit_course').val(response.student.course);
                         $('#edit_stud_id').val(stud_id);
+                        fetchstudent();
                     }
                 }
             });
