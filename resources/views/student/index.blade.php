@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
 
-                <ul id="saveform.errlist"></ul>
+                <ul id="saveform_errlist"></ul>
 
                 <div class="form-group mb-3">
                     <label for="">Name</label>
@@ -38,10 +38,10 @@
         </div>
     </div>
 </div>
-<!-- end add student modal -->
+<!-- end AddStudentModal -->
 
 <!-- EditStudentModal -->
-<div class="modal fade" id="EditStudentMOdal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EditStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,7 +78,32 @@
         </div>
     </div>
 </div>
-<!-- end EditStudentMOdal -->
+<!-- end EditStudentModal -->
+
+
+<!-- DeleteStudentModal -->
+<div class="modal fade" id="DeleteStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <input type="hidden" id="delete_stud_id">
+                <h4>want to delete?</h4>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary delete_student_btn ">Yes Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end DeleteStudentModal -->
+
 <div class="container py-5">
     <div class="row">
         <div class="col-md-12">
@@ -149,12 +174,47 @@
             });
         }
 
+        //Delete method AJAX
+        $(document).on('click', '.delete_student', function(e){
+            e.preventDefault();
+            var stud_id = $(this).val();
+            $('#delete_stud_id').val(stud_id);
+            $('#DeleteStudentModal').modal('show');
+            
+        });
+            $(document).on('click', '.delete_student_btn', function(e){
+            e.preventDefault();
+            var stud_id = $('#delete_stud_id').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+           
+            $.ajax({
+                type: 'DELETE',
+                url: "/delete-student/"+stud_id,
+                success: function(response) {
+                    //console.log(response);
+                    $('#success_message').addClass('alert alert-success');
+                    $('#success_message').text(response.message);
+                    $('#DeleteStudentModal').modal('hide');
+                    fetchstudent();
+                }
+            })
+
+            })
+    
+
+
+
         //Edit method AJAX
         $(document).on('click', '.edit_student', function(e) {
             e.preventDefault();
             var stud_id = $(this).val();
             // console.log(stud_id);
-            $('#EditStudentMOdal').modal('show');
+            $('#EditStudentModal').modal('show');
             $.ajax({
                 type: "GET",
                 url: "/edit-student/" + stud_id,

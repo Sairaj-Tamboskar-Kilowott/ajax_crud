@@ -88,6 +88,8 @@ class StudentController extends Controller
             return redirect()->route('student.index');
     }
 
+
+
     public function fetchstudent()
         {
             $students = Student::all();
@@ -96,6 +98,8 @@ class StudentController extends Controller
             ]);
         }
     
+
+        
 
     //Edit funtion
     public function edit($id)
@@ -202,5 +206,15 @@ class StudentController extends Controller
     // }
 // }
         
+
+        public function destroy($id){
+            $student = Student::find($id);
+            $student->delete();
+
+            return response()->json([
+            'status'=> 200,
+            'message'=>'student data deleted',
+        ]);
+        }
     
 }
